@@ -3,6 +3,7 @@ package fmc
 import (
 	"context"
 	"errors"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
@@ -79,7 +80,7 @@ func Provider() *schema.Provider {
 			"fmc_security_zone":              resourceFmcSecurityZone(),
 			"fmc_time_range_object":          resourceFmcTimeRangeObject(),
 			"fmc_access_policies_category":   resourceFmcAccessPoliciesCategory(),
-			"fmc_prefilter_policy": resourceFmcPrefilterPolicy(),
+			"fmc_prefilter_policy":           resourceFmcPrefilterPolicy(),
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"fmc_devices":         dataSourceFmcDevices(),
@@ -92,6 +93,7 @@ func Provider() *schema.Provider {
 			"fmc_host_objects":    dataSourceFmcHostObjects(),
 			"fmc_url_objects":     dataSourceFmcURLObjects(),
 			"fmc_port_objects":    dataSourceFmcPortObjects(),
+			"fmc_dynamic_objects": dataSourceFmcDynamicObjects(),
 		},
 		ConfigureContextFunc: providerConfigure,
 	}
