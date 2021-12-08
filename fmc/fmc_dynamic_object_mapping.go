@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 )
 
 type DynamicObjectMappingObject struct {
@@ -45,8 +44,6 @@ func (v *Client) CreateFmcDynamicObjectMapping(ctx context.Context, dynamicObjec
 	if err != nil {
 		return fmt.Errorf("creating dynamic object mapping: %s - %s", url, err.Error())
 	}
-
-	os.WriteFile("/tmp/dat1", body, 0644)
 
 	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewBuffer(body))
 	if err != nil {
