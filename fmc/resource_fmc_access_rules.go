@@ -645,7 +645,7 @@ func resourceFmcAccessRulesRead(ctx context.Context, d *schema.ResourceData, m i
 		return returnWithDiag(diags, err)
 	}
 	// seems that category is not returned within API response, so that's the only way
-	if err := d.Set("category",  d.Get("category").(string)); err != nil {
+	if err := d.Set("category", d.Get("category").(string)); err != nil {
 		return returnWithDiag(diags, err)
 	}
 

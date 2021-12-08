@@ -71,50 +71,50 @@ func resourceFmcTimeRangeObject() *schema.Resource {
 						"start_time": {
 							Type:        schema.TypeString,
 							Optional:    true,
-							Default: 	 "",
+							Default:     "",
 							Description: "Start date for this recurrence (time in RFC3339 format)",
 						},
 						"end_time": {
 							Type:        schema.TypeString,
 							Optional:    true,
-							Default: 	 "",
+							Default:     "",
 							Description: "End date for this recurrence (time in RFC3339 format)",
 						},
 						"start_day": {
 							Type:        schema.TypeString,
 							Optional:    true,
-							Default: 	 "",
+							Default:     "",
 							Description: "Start day for this recurrence (time in RFC3339 format)",
 						},
 						"end_day": {
 							Type:        schema.TypeString,
 							Optional:    true,
-							Default: 	 "",
+							Default:     "",
 							Description: "End day for this recurrence (time in RFC3339 format)",
 						},
 						"daily_start_time": {
 							Type:        schema.TypeString,
 							Optional:    true,
-							Default: 	 "",
+							Default:     "",
 							Description: "Daily start time for this recurrence (time in RFC3339 format)",
 						},
 						"daily_end_time": {
 							Type:        schema.TypeString,
 							Optional:    true,
-							Default: 	 "",
+							Default:     "",
 							Description: "Daily end time for this recurrence (time in RFC3339 format)",
 						},
 						"days": {
-							Type: schema.TypeList,
+							Type:     schema.TypeList,
 							Optional: true,
 							Elem: &schema.Schema{
-								Type: schema.TypeString,
+								Type:    schema.TypeString,
 								Default: "",
 							},
 						},
 						"recurrence_type": {
 							Type:        schema.TypeString,
-							Required: true,
+							Required:    true,
 							Description: "Type of recurrence. Allowed values: \"DAILY_INTERVAL\", \"RANGE\"",
 							ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
 								v := strings.ToUpper(val.(string))
@@ -128,7 +128,6 @@ func resourceFmcTimeRangeObject() *schema.Resource {
 								return
 							},
 						},
-
 					},
 				},
 				Description: "List of URL objects to add",
@@ -149,21 +148,21 @@ func resourceFmcTimeRangeObjectCreate(ctx context.Context, d *schema.ResourceDat
 			obji := obj.(map[string]interface{})
 
 			days := []string{}
-			if obji["days"] != nil  {
+			if obji["days"] != nil {
 				for _, day := range obji["days"].([]interface{}) {
 					days = append(days, day.(string))
 				}
 			}
 
 			recurrence := TimeRangeRecurrence{
-				StartTime: obji["start_time"].(string),
-				EndTime: obji["end_time"].(string),
-				StartDay: obji["start_day"].(string),
-				EndDay: obji["end_day"].(string),
+				StartTime:      obji["start_time"].(string),
+				EndTime:        obji["end_time"].(string),
+				StartDay:       obji["start_day"].(string),
+				EndDay:         obji["end_day"].(string),
 				DailyStartTime: obji["daily_start_time"].(string),
-				DailyEndTime: obji["daily_end_time"].(string),
+				DailyEndTime:   obji["daily_end_time"].(string),
 				RecurrenceType: obji["recurrence_type"].(string),
-				Days: days,
+				Days:           days,
 			}
 
 			// there is a bug in FMC API: when type is set to DAILY_INTERVAL -
@@ -176,7 +175,7 @@ func resourceFmcTimeRangeObjectCreate(ctx context.Context, d *schema.ResourceDat
 				// this additional check will prevent provider panic
 				if len(days) > 1 {
 					recurrence.StartDay = days[0]
-					recurrence.EndDay = days[len(days) - 1]
+					recurrence.EndDay = days[len(days)-1]
 				}
 			}
 
@@ -189,7 +188,7 @@ func resourceFmcTimeRangeObjectCreate(ctx context.Context, d *schema.ResourceDat
 		Description:        d.Get("description").(string),
 		EffectiveStartDate: d.Get("effective_start_date").(string),
 		EffectiveEndDate:   d.Get("effective_end_date").(string),
-		RecurrenceList: 	recurrences,
+		RecurrenceList:     recurrences,
 	})
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
@@ -261,10 +260,10 @@ func resourceFmcTimeRangeObjectRead(ctx context.Context, d *schema.ResourceData,
 		for _, recurrence := range item.RecurrenceList {
 
 			recurrenceList = append(recurrenceList, map[string]interface{}{
-				"start_time": recurrence.StartTime,
-				"end_time":   recurrence.EndTime,
-				"start_day":  recurrence.StartDay,
-				"end_day":    recurrence.EndDay,
+				"start_time":       recurrence.StartTime,
+				"end_time":         recurrence.EndTime,
+				"start_day":        recurrence.StartDay,
+				"end_day":          recurrence.EndDay,
 				"daily_start_time": recurrence.DailyStartTime,
 				"daily_end_time":   recurrence.DailyEndTime,
 				"recurrence_type":  recurrence.RecurrenceType,
@@ -289,28 +288,28 @@ func resourceFmcTimeRangeObjectUpdate(ctx context.Context, d *schema.ResourceDat
 	c := m.(*Client)
 	var diags diag.Diagnostics
 	id := d.Id()
-	if d.HasChanges("name", "description", "effective_start_date", "effective_end_date", "recurrence_list") {
+	if d.HasChanges("name", "description", "effective_start_date", "effective_end_date", "recurrence") {
 		var recurrences []TimeRangeRecurrence
 		if inputObjs, ok := d.GetOk("recurrence"); ok {
 			for _, obj := range inputObjs.([]interface{}) {
 				obji := obj.(map[string]interface{})
 
 				days := []string{}
-				if obji["days"] != nil  {
+				if obji["days"] != nil {
 					for _, day := range obji["days"].([]interface{}) {
 						days = append(days, day.(string))
 					}
 				}
 
 				recurrence := TimeRangeRecurrence{
-					StartTime: obji["start_time"].(string),
-					EndTime: obji["end_time"].(string),
-					StartDay: obji["start_day"].(string),
-					EndDay: obji["end_day"].(string),
+					StartTime:      obji["start_time"].(string),
+					EndTime:        obji["end_time"].(string),
+					StartDay:       obji["start_day"].(string),
+					EndDay:         obji["end_day"].(string),
 					DailyStartTime: obji["daily_start_time"].(string),
-					DailyEndTime: obji["daily_end_time"].(string),
+					DailyEndTime:   obji["daily_end_time"].(string),
 					RecurrenceType: obji["recurrence_type"].(string),
-					Days: days,
+					Days:           days,
 				}
 
 				// there is a bug in FMC API: when type is set to DAILY_INTERVAL -
@@ -323,7 +322,7 @@ func resourceFmcTimeRangeObjectUpdate(ctx context.Context, d *schema.ResourceDat
 					// this additional check will prevent provider panic
 					if len(days) > 1 {
 						recurrence.StartDay = days[0]
-						recurrence.EndDay = days[len(days) - 1]
+						recurrence.EndDay = days[len(days)-1]
 					}
 				}
 
@@ -337,7 +336,7 @@ func resourceFmcTimeRangeObjectUpdate(ctx context.Context, d *schema.ResourceDat
 			EffectiveStartDate: d.Get("effective_start_date").(string),
 			EffectiveEndDate:   d.Get("effective_end_date").(string),
 			ID:                 id,
-			RecurrenceList: 	recurrences,
+			RecurrenceList:     recurrences,
 		})
 		if err != nil {
 			diags = append(diags, diag.Diagnostic{

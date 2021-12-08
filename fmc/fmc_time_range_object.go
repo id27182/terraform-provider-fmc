@@ -11,14 +11,14 @@ import (
 var timeRangeObjectType = "TimeRange"
 
 type TimeRangeRecurrence struct {
-	StartTime string `json:"rangeStartTime"`
-	EndTime string `json:"rangeEndTime"`
-	StartDay string `json:"rangeStartDay"`
-	EndDay string `json:"rangeEndDay"`
-	Days []string `json:"days"`
-	DailyStartTime string `json:"dailyStartTime"`
-	DailyEndTime string `json:"dailyEndTime"`
-	RecurrenceType string `json:"recurrenceType"`
+	StartTime      string   `json:"rangeStartTime"`
+	EndTime        string   `json:"rangeEndTime"`
+	StartDay       string   `json:"rangeStartDay"`
+	EndDay         string   `json:"rangeEndDay"`
+	Days           []string `json:"days"`
+	DailyStartTime string   `json:"dailyStartTime"`
+	DailyEndTime   string   `json:"dailyEndTime"`
+	RecurrenceType string   `json:"recurrenceType"`
 }
 
 type TimeRangeObjectInput struct {
@@ -38,7 +38,7 @@ type TimeRangeObject struct {
 	Type               string `json:"type"`
 	EffectiveStartDate string `json:"effectiveStartDateTime"`
 	EffectiveEndDate   string `json:"effectiveEndDateTime"`
-	
+
 	RecurrenceList []TimeRangeRecurrence `json:"recurrenceList"`
 }
 

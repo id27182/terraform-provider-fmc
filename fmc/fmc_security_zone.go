@@ -93,7 +93,7 @@ func (v *Client) CreateFmcSecurityZone(ctx context.Context, zone *SecurityZoneRe
 	item := &SecurityZone{}
 	err = v.DoRequest(req, item, http.StatusCreated)
 	return item, err
-	return nil, nil
+	//return nil, nil
 }
 
 func (v *Client) DeleteFmcSecurityZone(ctx context.Context, id string) error {

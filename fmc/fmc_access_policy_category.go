@@ -9,14 +9,14 @@ import (
 )
 
 type AccessPolicyCategory struct {
-	Name        string `json:"name"`
-	Type        string `json:"type"`
+	Name string `json:"name"`
+	Type string `json:"type"`
 }
 
 type AccessPolicyCategoryResponse struct {
-	Name        string `json:"name"`
-	Type        string `json:"type"`
-	ID          string `json:"id"`
+	Name string `json:"name"`
+	Type string `json:"type"`
+	ID   string `json:"id"`
 }
 
 func (v *Client) GetFmcAccessPoliciesCategory(ctx context.Context, id, accessPolicyId string) (*AccessPolicyCategoryResponse, error) {

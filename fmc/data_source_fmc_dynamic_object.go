@@ -43,7 +43,7 @@ func dataSourceFmcDynamicObjectsRead(ctx context.Context, d *schema.ResourceData
 	// Warning or errors can be collected in a slice type
 	var diags diag.Diagnostics
 	dynamicobject, err := c.GetFmcDynamicObjectByName(ctx, d.Get("name").(string))
-
+	//    dynamicobject, err = c.GetFmcDynamicObject(ctx, idInput.(string))
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,

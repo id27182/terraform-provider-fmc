@@ -12,32 +12,32 @@ var prefilterPolicyType string = "PrefilterPolicy"
 
 type PrefilterPolicyDefaultActionInput struct {
 	//LogEnd          bool `json:"logEnd"`
-	LogBegin        bool `json:"logBegin"`
-	SendEventsToFMC bool `json:"sendEventsToFMC"`
-	Action string `json:"action"`
+	LogBegin        bool   `json:"logBegin"`
+	SendEventsToFMC bool   `json:"sendEventsToFMC"`
+	Action          string `json:"action"`
 }
 
 type PrefilterPolicyDefaultAction struct {
 	//LogEnd          bool `json:"logEnd"`
-	LogBegin        bool `json:"logBegin"`
-	SendEventsToFMC bool `json:"sendEventsToFMC"`
-	Action string `json:"action"`
-	ID string `json:"id"`
+	LogBegin        bool   `json:"logBegin"`
+	SendEventsToFMC bool   `json:"sendEventsToFMC"`
+	Action          string `json:"action"`
+	ID              string `json:"id"`
 }
 
 type PrefilterPolicyInput struct {
 	DefaultAction PrefilterPolicyDefaultActionInput `json:"defaultAction"`
 	Name          string                            `json:"name"`
-	Description string `json:"description"`
-	Type string `json:"type"`
+	Description   string                            `json:"description"`
+	Type          string                            `json:"type"`
 }
 
 type PrefilterPolicy struct {
 	DefaultAction PrefilterPolicyDefaultAction `json:"defaultAction"`
-	Name string                                 `json:"name"`
-	Description string `json:"description"`
-	Type string `json:"type"`
-	ID string `json:"id"`
+	Name          string                       `json:"name"`
+	Description   string                       `json:"description"`
+	Type          string                       `json:"type"`
+	ID            string                       `json:"id"`
 }
 
 func (v *Client) CreateFmcPrefilterPolicy(ctx context.Context, policy *PrefilterPolicyInput) (*PrefilterPolicy, error) {

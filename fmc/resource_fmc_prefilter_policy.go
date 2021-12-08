@@ -67,17 +67,17 @@ func resourceFmcPrefilterPolicy() *schema.Resource {
 						//},
 						"log_begin": {
 							Type:        schema.TypeBool,
-							Optional: true,
+							Optional:    true,
 							Description: "Log begin",
 						},
 						"send_events_to_fmc": {
 							Type:        schema.TypeBool,
-							Optional: true,
+							Optional:    true,
 							Description: "Send events to FMC",
 						},
 						"action": {
 							Type:        schema.TypeString,
-							Required: true,
+							Required:    true,
 							Description: "Action. Should be BLOCK_TUNNELS or ANALYZE_TUNNELS",
 							ValidateFunc: func(val interface{}, key string) (warns []string, errs []error) {
 								v := strings.ToUpper(val.(string))
@@ -92,7 +92,7 @@ func resourceFmcPrefilterPolicy() *schema.Resource {
 							},
 						},
 						"id": {
-							Type: schema.TypeString,
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
@@ -114,17 +114,16 @@ func resourceFmcPrefilterPolicyCreate(ctx context.Context, d *schema.ResourceDat
 		entry := inputEntries.([]interface{})[0].(map[string]interface{})
 
 		defaultAction = PrefilterPolicyDefaultActionInput{
-			LogBegin:        entry["log_begin"].(bool),
+			LogBegin: entry["log_begin"].(bool),
 			//LogEnd:          entry["log_end"].(bool),
 			SendEventsToFMC: entry["send_events_to_fmc"].(bool),
 			Action:          entry["action"].(string),
-
 		}
 	}
 
 	res, err := c.CreateFmcPrefilterPolicy(ctx, &PrefilterPolicyInput{
-		Name:        d.Get("name").(string),
-		Description: d.Get("description").(string),
+		Name:          d.Get("name").(string),
+		Description:   d.Get("description").(string),
 		DefaultAction: defaultAction,
 	})
 	if err != nil {
@@ -173,21 +172,19 @@ func resourceFmcPrefilterPolicyRead(ctx context.Context, d *schema.ResourceData,
 		return diags
 	}
 
-
 	defaultActionsList := []interface{}{
 		map[string]interface{}{
 			//"log_end": item.DefaultAction.LogEnd,
-			"log_begin": item.DefaultAction.LogBegin,
+			"log_begin":          item.DefaultAction.LogBegin,
 			"send_events_to_fmc": item.DefaultAction.SendEventsToFMC,
-			"action": item.DefaultAction.Action,
-			"id": item.DefaultAction.ID,
+			"action":             item.DefaultAction.Action,
+			"id":                 item.DefaultAction.ID,
 		},
 	}
 
 	if err := d.Set("default_action", defaultActionsList); err != nil {
 		return returnWithDiag(diags, err)
 	}
-
 
 	return diags
 }
@@ -203,18 +200,18 @@ func resourceFmcPrefilterPolicyUpdate(ctx context.Context, d *schema.ResourceDat
 			entry := inputEntries.([]interface{})[0].(map[string]interface{})
 
 			defaultAction = PrefilterPolicyDefaultAction{
-				LogBegin:        entry["log_begin"].(bool),
+				LogBegin: entry["log_begin"].(bool),
 				//LogEnd:          entry["log_end"].(bool),
 				SendEventsToFMC: entry["send_events_to_fmc"].(bool),
 				Action:          entry["action"].(string),
-				ID: 			 entry["id"].(string),
+				ID:              entry["id"].(string),
 			}
 		}
 
 		res, err := c.UpdateFmcPrefilterPolicy(ctx, &PrefilterPolicy{
-			ID: d.Id(),
-			Name:        d.Get("name").(string),
-			Description: d.Get("description").(string),
+			ID:            d.Id(),
+			Name:          d.Get("name").(string),
+			Description:   d.Get("description").(string),
 			DefaultAction: defaultAction,
 		})
 

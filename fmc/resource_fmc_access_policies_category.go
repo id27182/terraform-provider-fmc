@@ -26,13 +26,13 @@ func resourceFmcAccessPoliciesCategory() *schema.Resource {
 			"name": {
 				Type:        schema.TypeString,
 				Required:    true,
-				ForceNew: 	 true,
+				ForceNew:    true,
 				Description: "The name of this category",
 			},
 			"access_policy_id": {
 				Type:        schema.TypeString,
 				Required:    true,
-				ForceNew: 	 true,
+				ForceNew:    true,
 				Description: "Id of access policy this category belongs to",
 			},
 		},
@@ -45,8 +45,8 @@ func resourceFmcAccessPoliciesCategoryCreate(ctx context.Context, d *schema.Reso
 	// var diags diag.Diagnostics
 	var diags diag.Diagnostics
 
-	res, err := c.CreateFmcAccessPoliciesCategory(ctx,  d.Get("access_policy_id").(string),  &AccessPolicyCategory{
-		Name:               d.Get("name").(string),
+	res, err := c.CreateFmcAccessPoliciesCategory(ctx, d.Get("access_policy_id").(string), &AccessPolicyCategory{
+		Name: d.Get("name").(string),
 	})
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
@@ -69,7 +69,7 @@ func resourceFmcAccessPoliciesCategoryRead(ctx context.Context, d *schema.Resour
 	id := d.Id()
 	accessPolicyID := d.Get("access_policy_id").(string)
 
-	item, err := c.GetFmcAccessPoliciesCategory(ctx, id, accessPolicyID )
+	item, err := c.GetFmcAccessPoliciesCategory(ctx, id, accessPolicyID)
 	if err != nil {
 		diags = append(diags, diag.Diagnostic{
 			Severity: diag.Error,
